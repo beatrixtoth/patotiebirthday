@@ -173,16 +173,11 @@ function apply(d){
   var f=act().filter(function(i){return S.picks[i]===undefined})[0];S.idx=f===undefined?STEPS.length:f;
   if(n===0&&!S.locked)S.idx=-1;
 }
-try{apply(JSON.parse(localStorage.getItem('bday')||'null'))}catch(e){}
 try{
   if(window.claude&&claude.use){
     claude.use('db').then(function(db){
       if(!db)return;
       dbDoc=db.doc('plan/picks');
-      return dbDoc.get().then(function(s){
-        if(s.exists&&S.idx===-1){apply(s.data());render()}
-        else if(Object.keys(S.picks).length)save();
-      });
     }).catch(function(){});
   }
 }catch(e){}
